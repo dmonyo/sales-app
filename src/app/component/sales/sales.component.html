@@ -1,0 +1,42 @@
+
+<h1>Sales </h1>
+
+<form>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Folio Number</label>
+        <input type="text" [(ngModel)]="newSale.FolioNumber" name="FolioNumber" class="form-control" id="exampleInputEmail1" placeholder="Folio Number">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Sale Date</label>
+        <input type="text" [(ngModel)]="newSale.SaleDate" name="SaleDate"  class="form-control" id="exampleInputEmail1" placeholder="Sale Date">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Sale Amount</label>
+        <input type="text" [(ngModel)]="newSale.SaleAmount" name="SaleAmount"  class="form-control" id="exampleInputEmail1" placeholder="Sale Amount">
+    </div>
+    
+    <button (click)="saveSale()" type="submit" class="btn btn-default">Submit</button>
+    </form>
+    <br>
+    <div class="row">
+            <table class="table table-striped">
+                    <tr>
+                        <td>Id</td>
+                        <td>Folio Number</td>
+                        <td>Sale Date</td>
+                        <td>Sale Amount</td>
+                        <td>Actions</td>
+                    </tr>
+                    <tr *ngFor="let item of salesList"  (click)="selectSale(item)">
+                        <td>{{item.id}}</td>
+                        <td> {{item.FolioNumber}} </td>
+                        <td> {{item.SaleDate}} </td>
+                        <td> {{item.SaleAmount}} </td>
+                        <td>
+                            <a href="#" (click)="delete(item)">Delete</a>
+                        </td>
+                    </tr>
+                </table>
+    </div>
+
+    

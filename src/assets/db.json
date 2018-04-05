@@ -1,0 +1,28 @@
+{
+    "sales": [
+            {
+              "id": 1,
+              "FolioNumber": "654321",
+              "SaleDate": "08/05/2017",
+              "SaleAmount": "37.0000"
+            },
+            {
+              "id": 3,
+              "FolioNumber": "654321",
+              "SaleDate": "08/05/2017",
+              "SaleAmount": "38.0000"
+            },
+            {
+                "id": 3,
+              "FolioNumber": "654321",
+              "SaleDate": "08/05/2017",
+              "SaleAmount": "33.0000"
+            },
+            {
+                "id": 4,
+              "FolioNumber": "654321",
+              "SaleDate": "08/05/2017",
+              "SaleAmount": "39.0000"
+            }
+          ]
+}
