@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SalesService} from '../../services/sales.service'
 import {Sales} from '../../models/Sales'
+import { Http, Response, Headers } from '@angular/http';
 
 @Component({
   selector: 'app-sales',
@@ -9,24 +10,31 @@ import {Sales} from '../../models/Sales'
 })
 export class SalesComponent implements OnInit {
   ctrl = this
+  url = "http://localhost:3000/sales"
   newSale: Sales
   salesList: Sales[]
-  constructor(private service: SalesService) { }
+  headers = new Headers({
+    "Content-Type": "application/json"
+  })
+  datepickerOptions = {
+      format: 'yyyy-mm-dd',
+      language: 'fr',
+      startDate: "2012-10-01",
+      endDate: "2012-10-31",
+      autoclose: true,
+      weekStart: 0
+  }
+  constructor(private service: SalesService,private http: Http) { }
 
   ngOnInit() {
-    
-    
     this.getAllSales()
-    this.newSale = {
-      id:null,
-      FolioNumber: "",
-      SaleDate: "",
-      SaleAmount: ''
-    }
+    this.resetNewSale()
   }
 
   getAllSales(){
-    this.service.getSales().subscribe(sales=> this.salesList = sales)
+    this.http.get(this.url).subscribe((response)=>{
+      this.salesList = response.json()
+    })
   }
 
   selectSale(sale){
@@ -34,27 +42,31 @@ export class SalesComponent implements OnInit {
   }
 
   saveSale(){
-    console.log(this.newSale)
     if(this.newSale.id == null){
-      this.newSale.id = this.salesList.length + 1
-      this.salesList.push(this.newSale)
-      //this.service.add(this.newSale)
+      this.service.addSale(this.newSale).subscribe(response=>{
+        console.log(response.status)
+      })
     }
     else{
-      //do edit throu database
+      this.service.updateSale(this.newSale)
+      .then(()=>this.getAllSales())
     }
-    this.getAllSales()
+    this.resetNewSale()
+    
+  }
+
+  deleteSale(sale){
+    this.service.deleteSale(sale)
+    .then(()=>this.getAllSales())
+  }
+
+  resetNewSale(){
     this.newSale = {
       id:null,
       FolioNumber: "",
       SaleDate: "",
       SaleAmount: ''
     }
-  }
-
-  delete(sale){
-    var index = this.salesList.indexOf(sale)
-    this.salesList.splice(index,1)
   }
 
 }

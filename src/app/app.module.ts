@@ -18,7 +18,6 @@ import { HttpModule } from '@angular/http';
     BrowserModule,
     FormsModule,
     HttpModule
-
   ],
   providers: [SalesService],
   bootstrap: [AppComponent]

@@ -7,57 +7,37 @@ import {Sales} from '../models/Sales'
 
 import {SalesComponent} from '../component/sales/sales.component'
 
-
 @Injectable()
 export class SalesService{
     url = "http://localhost:3000/sales"
-    constructor(private http: Http){}
+    headers:Headers 
+    constructor(private http: Http){
+      this.headers = new Headers({
+        "Content-Type": "application/json"
+      })
+    }
 
     getSales(){
-      var sales = this.http.get(this.url)
+      return this.http.get(this.url)
             .map((response:Response)=> response.json())
-      return sales
+      
     }
 
-    public add(item: Sales) {
-      console.log(item)
-      return this.http.post(this.url, JSON.stringify(item)).map(
-        (response:Response) => {
-            console.log(response)
-            let body = response.json();
-            
-            return body.StatusCode;
-        }
-    )
-  }
-
-    getAllSales(): Sales[]{
-        return [
-            {
-                "id": 1,
-              "FolioNumber": "654321",
-              "SaleDate": "08/05/2017",
-              "SaleAmount": "38.0000"
-            },
-            {
-                "id": 2,
-              "FolioNumber": "654321",
-              "SaleDate": "08/05/2017",
-              "SaleAmount": "38.0000"
-            },
-            {
-                "id": 3,
-              "FolioNumber": "654321",
-              "SaleDate": "08/05/2017",
-              "SaleAmount": "38.0000"
-            },
-            {
-                "id": 4,
-              "FolioNumber": "654321",
-              "SaleDate": "08/05/2017",
-              "SaleAmount": "38.0000"
-            },
-          ]
+    deleteSale(sale){
+      const url = this.url + "/" + sale.id
+      return this.http.delete(url,{headers: this.headers}).toPromise()
     }
+
+    addSale(sale:Sales){
+      return this.http.post(this.url,sale)
+    }
+
+    updateSale(sale:Sales){
+      var url = this.url + "/" + sale.id
+      return this.http.put(url,JSON.stringify(sale),{headers:this.headers})
+      .toPromise()
+    }
+
+    
 }
 
