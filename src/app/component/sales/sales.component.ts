@@ -10,29 +10,22 @@ import { Http, Response, Headers } from '@angular/http';
 })
 export class SalesComponent implements OnInit {
   ctrl = this
-  url = "http://localhost:3000/sales"
   newSale: Sales
   salesList: Sales[]
-  headers = new Headers({
-    "Content-Type": "application/json"
-  })
-  datepickerOptions = {
-      format: 'yyyy-mm-dd',
-      language: 'fr',
-      startDate: "2012-10-01",
-      endDate: "2012-10-31",
-      autoclose: true,
-      weekStart: 0
-  }
+  searchQuery: string
+  
+  
   constructor(private service: SalesService,private http: Http) { }
 
   ngOnInit() {
-    this.getAllSales()
+    this.searchQuery = ""
     this.resetNewSale()
+    this.getAllSales()
+    
   }
 
   getAllSales(){
-    this.http.get(this.url).subscribe((response)=>{
+    this.service.getAllSales(this.searchQuery).subscribe((response)=>{
       this.salesList = response.json()
     })
   }

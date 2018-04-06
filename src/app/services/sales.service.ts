@@ -17,10 +17,10 @@ export class SalesService{
       })
     }
 
-    getSales(){
-      return this.http.get(this.url)
-            .map((response:Response)=> response.json())
-      
+    getAllSales(query){
+      const url = (query == "")? this.url : this.url + "?q=" + query  
+      console.log(url)
+      return this.http.get(url)
     }
 
     deleteSale(sale){
